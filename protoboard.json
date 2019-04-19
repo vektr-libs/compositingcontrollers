@@ -1,0 +1,8 @@
+{
+  "browserify": {
+    "dist/browserified.js": "browserify.js"
+  },
+  "dependencies": {
+    "js" : ["allex:hierarchymixins:lib", "vektr:controllers:lib","vektr:compositing:lib","vektr:common:lib","vektr:windowmonitoring:lib"]
+  }
+}

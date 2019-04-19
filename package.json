@@ -1,0 +1,25 @@
+{
+  "name": "vektr_compositingcontrollerslib",
+  "version": "1.0.0",
+  "description": "Compositing controllers lib for Vektr",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vektr-libs/compositingcontrollers.git"
+  },
+  "keywords": [
+    "ecosystem:AllexJS",
+    "compositingcontrollers",
+    "vektr",
+    "lib"
+  ],
+  "author": "Luka Petrovic <lukapetrovicsi@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vektr-libs/compositingcontrollers/issues"
+  },
+  "homepage": "https://github.com/vektr-libs/compositingcontrollers#readme"
+}
