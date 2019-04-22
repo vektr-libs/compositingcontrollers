@@ -40,9 +40,24 @@ function createUtil (lib, mylib) {
     classname = null;
     return ret || null;
   }
+
+  function elementChildrenCountWithoutClass (el, classname) {
+    var cntobj = {cnt: 0}, ret;
+    traverseElementChildren(el, function (child) {
+      if (child.className.split(' ').indexOf(classname)<0) {
+        cntobj.cnt++;
+      }
+    });
+    classname = null;
+    ret = cntobj.cnt;
+    cntobj = null;
+    return ret;
+  }
+
   mylib.util.traverseElementChildren = traverseElementChildren;
   mylib.util.elementChildrenWithClass = elementChildrenWithClass;
   mylib.util.elementChildWithClass = elementChildWithClass;
+  mylib.util.elementChildrenCountWithoutClass = elementChildrenCountWithoutClass;
 }
 
 module.exports = createUtil;

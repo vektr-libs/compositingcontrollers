@@ -8,7 +8,6 @@ function createScene(lib,hierarchymixinslib,compositinglib,mylib){
     var super_container = document.getElementById(containerid);
     this.container = document.createElement('div');
     this.container.setAttribute('id', super_container.getAttribute('id')+'_canvas_container');
-    this.container.style.position = 'absolute';
     addTo(super_container, this.container);
 
     if(!this.container){
@@ -21,6 +20,9 @@ function createScene(lib,hierarchymixinslib,compositinglib,mylib){
   }
   lib.inherit(Scene,compositinglib.RenderingParent);
   Scene.prototype.__cleanUp = function(){
+    if (this.container) {
+      returnVektrkeepsBack(this.container);
+    }
     this.mindOrientation = null;
     hierarchymixinslib.Child.prototype.__cleanUp.call(this);
     this.container = null;
@@ -89,12 +91,26 @@ function createScene(lib,hierarchymixinslib,compositinglib,mylib){
 
 
   function addTo (container, el) {
-    var tfib = mylib.util.elementChildWithClass(container, 'vektrtop');
-    if (tfib) {
-      container.insertBefore(el, tfib);
-      return;
+    var parentsvektrkeeps = mylib.util.elementChildrenWithClass(container, 'vektrkeep');
+    if (lib.isArray(parentsvektrkeeps) && parentsvektrkeeps.length>0) {
+      parentsvektrkeeps.forEach(reparenter.bind(null, el));
     }
     container.appendChild(el);
+  }
+
+  function returnVektrkeepsBack (el) {
+    if (!(el && el.parentElement)) {
+      console.error(el, 'has no parent');
+      return;
+    }
+    var vektrkeeps = mylib.util.elementChildrenWithClass(el, 'vektrkeep');
+    if (lib.isArray(vektrkeeps) && vektrkeeps.length>0) {
+      vektrkeeps.forEach(reparenter.bind(null, el.parentElement));
+    }
+  }
+
+  function reparenter (el, chld) {
+    el.appendChild(chld);
   }
 
 

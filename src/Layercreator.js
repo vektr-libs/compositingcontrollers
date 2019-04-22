@@ -40,10 +40,10 @@ function createLayer(lib,hierarchymixinslib,controllerslib,commonlib,compositing
     this.user_display = true;
     this.orientation = orientation || null;
     this.valid_orientation = null;
-    this.allowedToChangeParentsDims = orientation ? vektrinstance.container.children.length < 2 : !vektrinstance.container.children.length;
+    this.allowedToChangeParentsDims = calculateAllowedToChangeParentDims(orientation, vektrinstance.container);
     this.el = document.createElement('canvas');
     this.el.style.position = 'absolute';
-    vektrinstance.container.appendChild(this.el);
+    addTo (vektrinstance.container, this.el);
     this.el.style.setProperty('-webkit-tap-highlight-color','transparent');
     commonlib.enable3DAcceleration(this.el);
     this.ctx = this.el.getContext('2d');
@@ -152,7 +152,6 @@ function createLayer(lib,hierarchymixinslib,controllerslib,commonlib,compositing
     if (this.allowedToChangeParentsDims && show) {
       this.el.parentElement.style.width = this.el.style.width;
       this.el.parentElement.style.height = this.el.style.height;
-      this.el.parentElement.style.position = 'absolute';
       searchForResizables(this.el.parentElement, this.el.style.width, this.el.style.height);
     }
     if (show) {
@@ -228,12 +227,26 @@ function createLayer(lib,hierarchymixinslib,controllerslib,commonlib,compositing
   Layer.HORIZONTAL = 'horizontal';
   Layer.VERTICAL = 'vertical';
 
-  function searchForResizables (el, width, height) {
-    var vektrkeepchildren;
-    if (!(el && el.parentElement)) {
+  function calculateAllowedToChangeParentDims (orientation, container) {
+    var novektrkeeps = mylib.util.elementChildrenCountWithoutClass(container, 'vektrkeep');
+    return orientation ? novektrkeeps.length < 2 : !novektrkeeps.length;
+  }
+
+  function addTo (container, el) {
+    var tfib = mylib.util.elementChildWithClass(container, 'vektrtop');
+    if (tfib) {
+      container.insertBefore(el, tfib);
       return;
     }
-    vektrkeepchildren = mylib.util.elementChildrenWithClass(el.parentElement, 'vektrkeep');
+    container.appendChild(el);
+  }
+
+  function searchForResizables (el, width, height) {
+    var vektrkeepchildren;
+    if (!el) {
+      return;
+    }
+    vektrkeepchildren = mylib.util.elementChildrenWithClass(el, 'vektrkeep');
     if (lib.isArray(vektrkeepchildren)) {
       vektrkeepchildren.forEach(function (c) {
         c.style.width = width;
@@ -244,7 +257,6 @@ function createLayer(lib,hierarchymixinslib,controllerslib,commonlib,compositing
       height = null;
     }
   }
-
   mylib.Layer = Layer;
 }
 
