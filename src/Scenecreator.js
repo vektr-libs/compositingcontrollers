@@ -22,6 +22,9 @@ function createScene(lib,hierarchymixinslib,compositinglib,mylib){
   Scene.prototype.__cleanUp = function(){
     if (this.container) {
       returnVektrkeepsBack(this.container);
+      if (this.container.parentElement) {
+        this.container.parentElement.removeChild(this.container);
+      }
     }
     this.mindOrientation = null;
     hierarchymixinslib.Child.prototype.__cleanUp.call(this);

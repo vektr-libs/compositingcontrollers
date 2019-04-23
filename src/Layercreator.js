@@ -59,6 +59,9 @@ function createLayer(lib,hierarchymixinslib,controllerslib,commonlib,compositing
   }
   lib.inherit(Layer,compositinglib.RenderingParent);
   Layer.prototype.__cleanUp = function(){
+    if (this.el && this.el.parentElement) {
+      this.el.parentElement.removeChild(this.el);
+    }
     lib.traverse(this.environments,commonlib.destroyDestroyable);
     this.user_display = null;
     this.preventMousePropagation = null;

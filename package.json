@@ -1,6 +1,6 @@
 {
   "name": "vektr_compositingcontrollerslib",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Compositing controllers lib for Vektr",
   "main": "index.js",
   "scripts": {

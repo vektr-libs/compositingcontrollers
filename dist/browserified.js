@@ -93,6 +93,9 @@ function createLayer(lib,hierarchymixinslib,controllerslib,commonlib,compositing
   }
   lib.inherit(Layer,compositinglib.RenderingParent);
   Layer.prototype.__cleanUp = function(){
+    if (this.el && this.el.parentElement) {
+      this.el.parentElement.removeChild(this.el);
+    }
     lib.traverse(this.environments,commonlib.destroyDestroyable);
     this.user_display = null;
     this.preventMousePropagation = null;
@@ -395,6 +398,9 @@ function createScene(lib,hierarchymixinslib,compositinglib,mylib){
   Scene.prototype.__cleanUp = function(){
     if (this.container) {
       returnVektrkeepsBack(this.container);
+      if (this.container.parentElement) {
+        this.container.parentElement.removeChild(this.container);
+      }
     }
     this.mindOrientation = null;
     hierarchymixinslib.Child.prototype.__cleanUp.call(this);
